@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fullstack-todo</title>
+</head>
+
+<body>
+    <script type="module">
+        import CrudInterface from './crud-interface.js';
+
+        const result = () => JSON.parse(window.sessionStorage.getItem('toDoList'));
+
+        window.sessionStorage.clear();
+        let testCount = 0;
+        const crudInterface = CrudInterface();
+
+        crudInterface.createToDo('First To-Do');
+        console.log(++testCount, result().length === 1);
+
+        crudInterface.createToDo('Second To-Do');
+        console.log(++testCount, result().length === 2);
+
+        crudInterface.createToDo('Third To-Do');
+        console.log(++testCount, result().length === 3);
+        console.log(++testCount, result()[2].done === false);
+
+        crudInterface.updateToDo(result()[2].id);
+        console.log(++testCount, result().length === 3);
+        console.log(++testCount, result()[2].done === true);
+
+        crudInterface.deleteToDo(result()[1].id);
+        console.log(++testCount, result().length === 2);
+        console.log(++testCount, result()[0].done === false);
+
+        console.table(crudInterface.readToDoList());
+        window.sessionStorage.clear();
+    </script>
+</body>
+
+</html>

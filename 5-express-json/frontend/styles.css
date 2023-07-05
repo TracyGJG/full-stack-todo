@@ -1,0 +1,44 @@
+body {
+    text-align: center;
+}
+
+main {
+    display: inline-block;
+    min-width: 400px;
+    margin: 10px auto;
+    background-color: #ddd;
+    padding: 10px;
+}
+
+article {
+    height: 400px;
+    overflow-y: auto;
+    text-align: left;
+    border: 1px solid #000;
+    padding: 5px 5px 0;
+}
+
+article button {
+    width: 50px;
+    margin-right: 5px;
+}
+
+div {
+    margin-bottom: 5px;
+}
+
+.toDoTitle {
+    width: 300px;
+    display: inline-block;
+    background-color: #eee;
+    padding: 1px 5px;
+}
+
+.Del button:nth-of-type(1),
+.Done button:nth-of-type(2) {
+    display: none;
+}
+
+.Del .toDoTitle {
+    text-decoration: line-through;
+}

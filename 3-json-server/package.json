@@ -1,0 +1,17 @@
+{
+    "scripts": {
+        "cover": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+        "watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "copyDb": "copy .\\backend\\db.json .",
+        "server": "json-server ./db.json --static ./frontend",
+        "start": "npm run copyDb && npm run server"
+    },
+    "type": "module",
+    "devDependencies": {
+        "jest": "^29.4.3",
+        "jest-environment-jsdom": "^29.5.0",
+        "jsdom": "^22.1.0",
+        "json-server": "^0.17.3"
+    }
+}

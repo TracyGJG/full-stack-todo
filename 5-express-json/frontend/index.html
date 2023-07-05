@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fullstack-todo</title>
+    <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <main id="toDoForm">
+        <section>
+            <label>
+                <span>Title:</span>
+                <input type="text" id="txtToDoTitle">
+            </label>
+            <button id="btnAddToDo" disabled="true">Add</button>
+        </section>
+        <hr>
+        <article id="toDoList">
+        </article>
+    </main>
+
+    <template id="toDoItem">
+        <div class="toDoAction">
+            <span>
+                <button data-ToDo="{toDoId}">Done</button>
+                <button data-ToDo="{toDoId}">Del</button>
+            </span>
+            <span class="toDoTitle">{toDoTitle}</span>
+        </div>
+    </template>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
