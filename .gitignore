@@ -130,3 +130,6 @@ dist
 .pnp.*
 3-json-server/db.json
 5-express-json/db.json
+1-memory-array/db.json
+2-web-storage/db.json
+4-express-array/db.json

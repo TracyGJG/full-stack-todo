@@ -1,41 +1,46 @@
 import CrudInterface from './crud-interface';
+import TestData from '../db.json';
 
 describe('CRUD Interface', () => {
 	it('can support adding a new to-do item', () => {
-		const toDoStore = [];
+		const toDoStore = structuredClone(TestData.toDos);
 		const crudInterface = CrudInterface(toDoStore);
-		expect(toDoStore.length).toBe(0);
+		expect(toDoStore.length).toBe(2);
 
-		crudInterface.createToDo('First To-Do');
-		expect(toDoStore.length).toBe(1);
-		expect(toDoStore[0].id).toBe('1');
-		expect(toDoStore[0].text).toBe('First To-Do');
-		expect(toDoStore[0].done).toStrictEqual(false);
+		crudInterface.createToDo('Test Three');
+		expect(toDoStore.length).toBe(3);
+		expect(toDoStore[2].id).toBe('3');
+		expect(toDoStore[2].text).toBe('Test Three');
+		expect(toDoStore[2].done).toStrictEqual(false);
 	});
 
 	it('can support reading a list of to-do items', () => {
-		const toDoStore = [{ id: '1', text: 'First To-Do', done: false }];
+		const toDoStore = structuredClone(TestData.toDos);
 		const crudInterface = CrudInterface(toDoStore);
 
 		const result = crudInterface.readToDoList();
-		expect(result.length).toBe(1);
+		expect(result.length).toBe(2);
 		expect(result[0]).not.toBe(toDoStore[0]);
 	});
 
 	it('can support updating of a to-do item to done', () => {
-		const toDoStore = [{ id: '1', text: 'First To-Do', done: false }];
+		const toDoStore = structuredClone(TestData.toDos);
 		const crudInterface = CrudInterface(toDoStore);
 
-		crudInterface.updateToDo('1');
-		expect(toDoStore.length).toBe(1);
-		expect(toDoStore[0].done).toStrictEqual(true);
+		expect(toDoStore.length).toBe(2);
+		expect(toDoStore[1].done).toStrictEqual(false);
+
+		crudInterface.updateToDo('2');
+		expect(toDoStore[1].done).toStrictEqual(true);
 	});
 
 	it('can support deletion of a to-do item', () => {
-		const toDoStore = [{ id: '1', text: 'First To-Do', done: false }];
+		const toDoStore = structuredClone(TestData.toDos);
 		const crudInterface = CrudInterface(toDoStore);
 
-		crudInterface.deleteToDo('1');
-		expect(toDoStore.length).toBe(0);
+		expect(toDoStore.length).toBe(2);
+
+		crudInterface.deleteToDo('2');
+		expect(toDoStore.length).toBe(1);
 	});
 });

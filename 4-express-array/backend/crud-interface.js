@@ -1,5 +1,5 @@
 module.exports = function (toDoList = []) {
-	let index = 1;
+	let index = toDoList.length + 1;
 
 	return {
 		createToDo,
@@ -11,13 +11,13 @@ module.exports = function (toDoList = []) {
 	function createToDo(toDoText) {
 		toDoList.push({
 			text: toDoText,
-			id: index++,
+			id: `${index++}`,
 			done: false,
 		});
 	}
 
 	function readToDoList() {
-		return [...toDoList];
+		return structuredClone(toDoList);
 	}
 
 	function updateToDo(toDoId) {

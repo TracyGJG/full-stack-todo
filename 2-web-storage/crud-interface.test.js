@@ -1,14 +1,12 @@
 import CrudInterface from './crud-interface';
+import TestData from '../db.json';
 
 function MockWebSessionStorage(
 	sessionStore = {
-		data: '[]',
+		data: JSON.stringify(TestData.toDos),
 	}
 ) {
 	return {
-		clear() {
-			sessionStore.data = '[]';
-		},
 		getItem(_) {
 			return sessionStore.data;
 		},
@@ -18,68 +16,54 @@ function MockWebSessionStorage(
 	};
 }
 
+const toDoStore = _ => JSON.parse(_.getItem());
+
 describe('CRUD Interface', () => {
-	let mockWebSessionStorage;
-	let crudInterface;
-
-	beforeEach(() => {
-		mockWebSessionStorage = MockWebSessionStorage();
-		mockWebSessionStorage.clear();
-		crudInterface = CrudInterface(mockWebSessionStorage);
-	});
-
 	it('can support adding a new to-do item', () => {
-		expect(mockWebSessionStorage.getItem()).toBe('[]');
+		const mockWebSessionStorage = MockWebSessionStorage();
+		const crudInterface = CrudInterface(mockWebSessionStorage);
+		let result = toDoStore(mockWebSessionStorage);
+		expect(result.length).toBe(2);
 
-		crudInterface.createToDo('First To-Do');
-		expect(mockWebSessionStorage.getItem()).toBe(
-			'[{"text":"First To-Do","id":"1","done":false}]'
-		);
+		crudInterface.createToDo('Test Three');
+		result = toDoStore(mockWebSessionStorage);
+		expect(result.length).toBe(3);
+		expect(result[2].id).toBe('3');
+		expect(result[2].text).toBe('Test Three');
+		expect(result[2].done).toStrictEqual(false);
 	});
 
 	it('can support reading a list of to-do items', () => {
-		mockWebSessionStorage.setItem(
-			'_',
-			'[{"text":"First To-Do","id":"1","done":false},{"text":"Second To-Do","id":"2","done":true}]'
-		);
+		const mockWebSessionStorage = MockWebSessionStorage();
+		const crudInterface = CrudInterface(mockWebSessionStorage);
 
 		const result = crudInterface.readToDoList();
 		expect(result.length).toBe(2);
-
-		expect(result[0].id).toBe('1');
-		expect(result[0].text).toBe('First To-Do');
-		expect(result[0].done).toStrictEqual(false);
-
-		expect(result[1].id).toBe('2');
-		expect(result[1].text).toBe('Second To-Do');
-		expect(result[1].done).toStrictEqual(true);
+		expect(result[0]).not.toBe(toDoStore(mockWebSessionStorage)[0]);
 	});
 
 	it('can support updating of a to-do item to done', () => {
-		mockWebSessionStorage.setItem(
-			'_',
-			'[{"text":"First To-Do","id":"1","done":false}]'
-		);
-		const result = crudInterface.readToDoList();
-		expect(result.length).toBe(1);
+		const mockWebSessionStorage = MockWebSessionStorage();
+		const crudInterface = CrudInterface(mockWebSessionStorage);
 
-		crudInterface.updateToDo('1');
-		expect(mockWebSessionStorage.getItem()).toBe(
-			'[{"text":"First To-Do","id":"1","done":true}]'
-		);
+		let result = toDoStore(mockWebSessionStorage);
+		expect(result.length).toBe(2);
+		expect(result[1].done).toStrictEqual(false);
+
+		crudInterface.updateToDo('2');
+		result = toDoStore(mockWebSessionStorage);
+		expect(result[1].done).toStrictEqual(true);
 	});
 
 	it('can support deletion of a to-do item', () => {
-		mockWebSessionStorage.setItem(
-			'_',
-			'[{"text":"First To-Do","id":"1","done":false},{"text":"Second To-Do","id":"2","done":true}]'
-		);
-		const result = crudInterface.readToDoList();
+		const mockWebSessionStorage = MockWebSessionStorage();
+		const crudInterface = CrudInterface(mockWebSessionStorage);
+
+		let result = toDoStore(mockWebSessionStorage);
 		expect(result.length).toBe(2);
 
-		crudInterface.deleteToDo('1');
-		expect(mockWebSessionStorage.getItem()).toBe(
-			'[{"text":"Second To-Do","id":"2","done":true}]'
-		);
+		crudInterface.deleteToDo('2');
+		result = toDoStore(mockWebSessionStorage);
+		expect(result.length).toBe(1);
 	});
 });

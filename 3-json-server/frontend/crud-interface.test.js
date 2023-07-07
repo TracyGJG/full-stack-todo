@@ -1,43 +1,53 @@
 import CrudInterface from './crud-interface';
 
-describe.skip('CRUD Interface', () => {
-	let crudInterface;
+async function toDoStore() {
+	const toDosRaw = await fetch('http://localhost:3000/toDos');
+	const toDosList = await toDosRaw.json();
+	return toDosList;
+}
 
-	beforeEach(() => {
-		crudInterface = CrudInterface();
-	});
-
+describe('CRUD Interface', () => {
 	it('can support adding a new to-do item', async () => {
-		await crudInterface.createToDo('First To-Do');
-		await crudInterface.createToDo('Second To-Do');
+		let crudInterface = CrudInterface();
+		let result = await toDoStore();
+		expect(result.length).toBe(2);
 
-		const toDoList = await crudInterface.readToDoList();
-		expect(toDoList.length).toBe(2);
+		await crudInterface.createToDo('Test Three');
+		result = await toDoStore();
+		expect(result.length).toBe(3);
+		expect(result[2].id).toBe('3');
+		expect(result[2].text).toBe('Test Three');
+		expect(result[2].done).toStrictEqual(false);
 	});
 
 	it('can support reading a list of to-do items', async () => {
-		await crudInterface.createToDo('Third To-Do');
+		let crudInterface = CrudInterface();
 
-		const toDoList = await crudInterface.readToDoList();
-		expect(toDoList.length).toBe(3);
+		const result = await crudInterface.readToDoList();
+		expect(result.length).toBe(3);
 	});
 
 	it('can support updating of a to-do item to done', async () => {
-		await crudInterface.updateToDo(3);
+		let crudInterface = CrudInterface();
 
-		const toDoList = await crudInterface.readToDoList();
-		expect(toDoList.length).toBe(3);
+		let result = await toDoStore();
+		expect(result.length).toBe(2);
+		expect(result[2].done).toStrictEqual(false);
+
+		await crudInterface.updateToDo('3');
+
+		result = await toDoStore();
+		expect(result[2].done).toStrictEqual(true);
 	});
 
 	it('can support deletion of a to-do item', async () => {
-		await crudInterface.deleteToDo(1);
-		let toDoList = await crudInterface.readToDoList();
-		expect(toDoList.length).toBe(2);
+		let crudInterface = CrudInterface();
 
-		await crudInterface.deleteToDo(2);
-		await crudInterface.deleteToDo(3);
+		let result = await toDoStore();
+		expect(result.length).toBe(3);
 
-		toDoList = await crudInterface.readToDoList();
-		expect(toDoList.length).toBe(0);
+		crudInterface.deleteToDo('2');
+		result = await toDoStore();
+		expect(result.length).toBe(2);
 	});
 });

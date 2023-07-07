@@ -1,6 +1,6 @@
 export default function (webStore = window.sessionStorage) {
-	let index = 1;
 	let toDoList = JSON.parse(webStore.getItem('toDoList') || `[]`);
+	let index = toDoList.length + 1;
 
 	return {
 		createToDo,

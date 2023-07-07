@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "copyDb": "copy .\\backend\\db.json .",
+    "copyDb": "copy ..\\db.json .",
     "jsonServer": "json-server -c .\\backend\\json-server.json db.json",
     "server": "npm run copyDb && npm run jsonServer",
     "start": "node .\\backend\\server.js"

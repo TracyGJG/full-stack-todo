@@ -1,5 +1,5 @@
 export default function (toDoList = []) {
-	let index = 1;
+	let index = toDoList.length + 1;
 
 	return {
 		createToDo,

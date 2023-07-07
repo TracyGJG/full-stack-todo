@@ -1,6 +1,8 @@
 {
     "scripts": {
-        "start": "node .\\backend\\server.js"
+        "copyDb": "copy ..\\db.json .",
+        "server": "node .\\backend\\server.js",
+        "start": "npm run copyDb && npm run server"
     },
     "devDependencies": {
         "body-parser": "^1.20.2",
