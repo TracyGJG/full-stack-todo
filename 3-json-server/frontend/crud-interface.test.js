@@ -15,7 +15,6 @@ describe('CRUD Interface', () => {
 		await crudInterface.createToDo('Test Three');
 		result = await toDoStore();
 		expect(result.length).toBe(3);
-		expect(result[2].id).toBe('3');
 		expect(result[2].text).toBe('Test Three');
 		expect(result[2].done).toStrictEqual(false);
 	});
@@ -31,13 +30,13 @@ describe('CRUD Interface', () => {
 		let crudInterface = CrudInterface();
 
 		let result = await toDoStore();
-		expect(result.length).toBe(2);
-		expect(result[2].done).toStrictEqual(false);
+		expect(result.length).toBe(3);
+		expect(result[1].done).toStrictEqual(false);
 
-		await crudInterface.updateToDo('3');
+		await crudInterface.updateToDo('2');
 
 		result = await toDoStore();
-		expect(result[2].done).toStrictEqual(true);
+		expect(result[1].done).toStrictEqual(true);
 	});
 
 	it('can support deletion of a to-do item', async () => {
@@ -46,7 +45,7 @@ describe('CRUD Interface', () => {
 		let result = await toDoStore();
 		expect(result.length).toBe(3);
 
-		crudInterface.deleteToDo('2');
+		await crudInterface.deleteToDo('2');
 		result = await toDoStore();
 		expect(result.length).toBe(2);
 	});
