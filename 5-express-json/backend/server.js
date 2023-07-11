@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+
 const CrudInterface = require('./crud-interface.js');
 
 const app = express();
@@ -11,8 +12,8 @@ const crudInterface = CrudInterface();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
-app.get('/toDos', (_req, res) => {
-	res.json(crudInterface.readToDoList());
+app.get('/toDos', async (_req, res) => {
+	res.json(await crudInterface.readToDoList());
 });
 
 app.post('/toDos', (req, res) => {
@@ -21,12 +22,12 @@ app.post('/toDos', (req, res) => {
 });
 
 app.patch('/toDos/:id', (req, res) => {
-	crudInterface.updateToDo(+req.params.id);
+	crudInterface.updateToDo(req.params.id);
 	res.send('OK');
 });
 
 app.delete('/toDos/:id', (req, res) => {
-	crudInterface.deleteToDo(+req.params.id);
+	crudInterface.deleteToDo(req.params.id);
 	res.send('OK');
 });
 
