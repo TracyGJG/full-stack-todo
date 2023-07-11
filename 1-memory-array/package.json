@@ -4,14 +4,14 @@
         "watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
         "copyDb": "copy ..\\db.json .",
-        "server": "http-server -p 3000",
+        "server": "json-server -c .\\json-server.json ./db.json",
         "start": "npm run copyDb && npm run server"
     },
     "type": "module",
     "devDependencies": {
-        "http-server": "^14.1.1",
         "jest": "^29.4.3",
         "jest-environment-jsdom": "^29.5.0",
-        "jsdom": "^22.1.0"
+        "jsdom": "^22.1.0",
+        "json-server": "^0.17.3"
     }
 }

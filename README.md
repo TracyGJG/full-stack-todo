@@ -16,3 +16,9 @@ An interface component used to access a json-server for data storage and static 
 
 ## Step Six: Express DB
  
+## A word on json-server
+Four out of six of the exmples above (1, 2, 3 & 5) use the json-server to stand-in for:
+- Web Server: 1, 2
+- App Server: 5
+- Database Server: 3, 5
+
