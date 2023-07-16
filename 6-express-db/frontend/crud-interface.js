@@ -22,12 +22,15 @@ export default function (endpointUrl = 'http://localhost:3000/toDos') {
 		return rawData.json();
 	}
 
-	function updateToDo(toDoId) {
+	function updateToDo(
+		toDoId,
+		payload = {
+			done: true,
+		}
+	) {
 		return fetch(`${endpointUrl}/${toDoId}`, {
 			method: 'PATCH',
-			body: JSON.stringify({
-				done: true,
-			}),
+			body: JSON.stringify(payload),
 			headers: { 'Content-Type': 'application/json' },
 		});
 	}

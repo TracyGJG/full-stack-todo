@@ -44,12 +44,12 @@ module.exports = async function () {
 		return await col.find({}).toArray();
 	}
 
-	async function updateToDo(toDoId) {
+	async function updateToDo(toDoId, payload = { done: true }) {
 		return await col.updateOne(
 			{
 				_id: new ObjectId(toDoId),
 			},
-			{ $set: { done: true } }
+			{ $set: payload }
 		);
 	}
 
